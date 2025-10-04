@@ -127,12 +127,12 @@ def save_image(image_bytes: bytes, output_dir: str) -> str | None:
         return None
 
 
-def setup() -> tuple[str, bool]:
+def setup() -> tuple[str | None, bool]:
     """
     Perform initial setup and validation.
 
     Returns:
-        Tuple of (camera_id, success)
+        Tuple of (camera_id, success). camera_id is None if setup failed.
     """
     # Check for required credentials
     if not PRUSALINK_PASSWORD:
@@ -189,6 +189,11 @@ def run_monitoring_loop(camera_id: str) -> int:
 
     try:
         while True:
+            # Check that API key is available (should always be at this point)
+            if not PRUSALINK_PASSWORD:
+                print("Error: API key became unavailable")
+                return 1
+
             # Fetch camera snapshot (silent on connection errors to avoid spam)
             image_bytes = get_snapshot(
                 PRUSALINK_HOST,
@@ -241,10 +246,10 @@ def run_monitoring_loop(camera_id: str) -> int:
         return 0
 
 
-def main():
+def main() -> int:
     """Main entry point."""
     camera_id, success = setup()
-    if not success:
+    if not success or camera_id is None:
         return 1
 
     return run_monitoring_loop(camera_id)

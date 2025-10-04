@@ -1,3 +1,4 @@
 .env
 timelapse/
 .claude/
+.mypy_cache
