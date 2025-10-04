@@ -108,13 +108,14 @@ def encode_frames(frames: list[Path], output_path: Path, framerate: int = 30) ->
 
     try:
         # Encode using concat demuxer for precise frame control
+        # Use -framerate (input) instead of -r (output) to avoid frame duplication
         result = subprocess.run(
             [
                 "ffmpeg",
                 "-f", "concat",
                 "-safe", "0",
+                "-r", str(framerate),  # Input framerate
                 "-i", str(concat_file),
-                "-r", str(framerate),
                 "-c:v", "libx264",
                 "-preset", "medium",
                 "-crf", "23",
