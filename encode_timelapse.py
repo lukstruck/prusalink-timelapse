@@ -171,8 +171,8 @@ def main():
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=Path("timelapse_videos"),
-        help="Directory for output MP4 files (default: timelapse_videos)"
+        default=Path("timelapse/videos"),
+        help="Directory for output MP4 files (default: timelapse/videos)"
     )
     parser.add_argument(
         "--frames",
