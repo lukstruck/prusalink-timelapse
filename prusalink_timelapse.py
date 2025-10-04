@@ -152,11 +152,11 @@ def trigger_encoding(timelapse_dir: str) -> None:
 
     try:
         # Run in background, detached from parent process
-        subprocess.Popen(
+        _ = subprocess.Popen(
             [sys.executable, str(encode_script), "--timelapse-dir", timelapse_dir],
             start_new_session=True,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL
+            stdout=sys.stdout,
+            stderr=sys.stderr,
         )
         logger.info("Triggered video encoding")
     except Exception as e:
