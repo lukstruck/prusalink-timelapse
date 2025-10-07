@@ -30,7 +30,7 @@ logging.basicConfig(
 logger = logging.getLogger('timelapse')
 
 # Configuration
-PRUSALINK_HOST = os.getenv("PRUSALINK_HOST", "192.168.178.56")
+PRUSALINK_HOST = os.getenv("PRUSALINK_HOST")
 PRUSALINK_USERNAME = os.getenv("PRUSALINK_USERNAME", "maker")
 PRUSALINK_PASSWORD = os.getenv("PRUSALINK_PASSWORD")
 CAMERA_NAME = os.getenv("CAMERA_NAME", "RaspberryPi Camera: ov5647")
@@ -170,6 +170,11 @@ def setup() -> tuple[str | None, bool]:
     Returns:
         Tuple of (camera_id, success). camera_id is None if setup failed.
     """
+    
+    if not PRUSALINK_HOST:
+        logger.error("PRUSALINK_HOST not set in .env file")
+        return None, False
+    
     # Check for required credentials
     if not PRUSALINK_PASSWORD:
         logger.error("PRUSALINK_PASSWORD not set in .env file")

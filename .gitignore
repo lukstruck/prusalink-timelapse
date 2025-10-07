@@ -2,3 +2,4 @@
 timelapse/
 .claude/
 .mypy_cache
+prusalink_openapi*.yaml
